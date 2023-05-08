@@ -9,3 +9,11 @@ up: ## Start the development docker container.
 .PHONY: down
 down: ## Down the development docker container.
 	docker compose down
+
+.PHONY: app
+app: ## Enter the development app container.
+	docker compose exec app /bin/ash
+
+.PHONY: postgres
+postgres: ## Enter the development postgresql container.
+	docker compose exec postgresql psql -U postgres
