@@ -13,4 +13,4 @@ const client =
 // 開発環境では、ホットリロードするたびにクライアントが作成されるのを防ぐ
 if (process.env.NODE_ENV !== "production") globalForPrisma.prisma = client;
 
-export default client
+export default client;

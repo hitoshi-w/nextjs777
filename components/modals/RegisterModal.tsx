@@ -11,7 +11,10 @@ import { Input } from "@/components/inputs/input";
 import { Button } from "@/components/modals/Button";
 
 const postData = async (data: FieldValues) => {
-  const response = await fetch("/api/register", data);
+  const response = await fetch("/api/register", {
+    method: "POST",
+    body: JSON.stringify(data),
+  });
   return response;
 };
 
@@ -43,7 +46,7 @@ export const RegisterModal = () => {
 
   const bodyContent = (
     <div className="flex flex-col gap-4">
-      <Heading title="welcome" subtitle="Create an account" />
+      <Heading title="Welcome" subtitle="Create an account" />
       <Input
         id="email"
         label="Email"
@@ -84,7 +87,10 @@ export const RegisterModal = () => {
           <div>
             <div>Already have an account?</div>
           </div>
-          <div className="text-neutral-800 cursor-pointer hover:underline" onClick={registerModal.onClose}>
+          <div
+            className="text-neutral-800 cursor-pointer hover:underline"
+            onClick={registerModal.onClose}
+          >
             <div>Log in</div>
           </div>
         </div>
