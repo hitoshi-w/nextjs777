@@ -17,3 +17,7 @@ app: ## Enter the development app container.
 .PHONY: postgres
 postgres: ## Enter the development postgresql container.
 	docker compose exec postgresql psql -U postgres
+
+.PHONY: prisma-db-push
+prisma-db-push: ## synchronize your prisma schema with your database schema.
+	docker compose exec app npx prisma db push
