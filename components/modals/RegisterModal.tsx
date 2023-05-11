@@ -1,7 +1,7 @@
 "use client";
 
 import { AiFillGithub } from "react-icons/ai";
-import { FcGoogle } from "react-icons/fc";
+// import { FcGoogle } from "react-icons/fc";
 import { useState } from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { useRegisterModal } from "@/hooks/useRegisterModal";
@@ -9,6 +9,7 @@ import { Modal } from "@/components/modals/Modal";
 import { Heading } from "@/components/Heading";
 import { Input } from "@/components/inputs/input";
 import { Button } from "@/components/modals/Button";
+import { signIn } from "next-auth/react";
 
 const postData = async (data: FieldValues) => {
   const response = await fetch("/api/register", {
@@ -70,18 +71,20 @@ export const RegisterModal = () => {
   const footerContent = (
     <div className="flex flex-col gap-4 mt-3">
       <hr />
-      <Button
+      {/* <Button
         outline
         label="Continue with Google"
         icon={FcGoogle}
         onClick={() => {}}
-      />
+      /> */}
+
       <Button
         outline
         label="Continue with Github"
         icon={AiFillGithub}
-        onClick={() => {}}
+        onClick={() => signIn("github")}
       />
+
       <div className="text-neutral-500 text-center mt-4 font-light">
         <div className="justify-center flext flext-row items-center gap-2">
           <div>
