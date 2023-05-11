@@ -10,17 +10,18 @@ import { Heading } from "@/components/Heading";
 import { Input } from "@/components/inputs/input";
 import { Button } from "@/components/modals/Button";
 import { signIn } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 const postData = async (data: FieldValues) => {
-  const response = await fetch("/api/register", {
+  return await fetch("/api/register", {
     method: "POST",
     body: JSON.stringify(data),
   });
-  return response;
 };
 
 export const RegisterModal = () => {
   const registerModal = useRegisterModal();
+  const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
 
   const {
@@ -38,11 +39,26 @@ export const RegisterModal = () => {
     setIsLoading(true);
 
     postData(data)
-      .then(() => registerModal.onClose())
+      .then(() => {
+        // 失敗時は、同じページへリダイレクトさせる
+        signIn("credentials", {
+          ...data,
+          redirect: false,
+        }).then((callback) => {
+          setIsLoading(false);
+
+          if (callback?.ok) {
+            // サーバーからデータをフェッチしなおす
+            router.refresh();
+            registerModal.onClose()
+          }
+
+          if (callback?.error) {
+            console.log(callback.error);
+          }
+        });
+      })
       .catch((error) => console.log(error))
-      .finally(() => {
-        setIsLoading(false);
-      });
   };
 
   const bodyContent = (
