@@ -47,7 +47,7 @@ export const LoginModal = () => {
       }
 
       if (callback?.error) {
-        console.log(callback.error)
+        console.log(callback.error);
       }
     });
   };

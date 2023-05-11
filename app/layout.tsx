@@ -3,6 +3,7 @@ import "./globals.css";
 import { Nunito } from "next/font/google";
 import { RegisterModal } from "@/components/modals/RegisterModal";
 import { LoginModal } from "@/components/modals/LoginModal";
+import { getCurrentUser } from "@/lib/session";
 
 const font = Nunito({ subsets: ["latin"] });
 
@@ -11,17 +12,18 @@ export const metadata = {
   description: "description",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const currentUser = await getCurrentUser();
   return (
     <html lang="en">
       <body className={font.className}>
         <LoginModal />
         <RegisterModal />
-        <Navbar />
+        <Navbar currentUser={currentUser} />
         {children}
       </body>
     </html>
