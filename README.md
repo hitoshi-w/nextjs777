@@ -29,6 +29,11 @@ make build
 ```
 make up
 ```
+
+5. Prisma と databaseの同期
+```
+make prisma-setup
+```
 http://localhost:3000 を開きます。
 
 必要であれば、http://localhost:5050 でpgAdminを使用できます。
