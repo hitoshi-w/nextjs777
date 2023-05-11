@@ -2,12 +2,14 @@
 
 import { Avatar } from "@/components/Avatar";
 import { MenuItem } from "@/components/navbar/MenuItem";
+import { useLoginModal } from "@/hooks/useLoginModal";
 import { useRegisterModal } from "@/hooks/useRegisterModal";
 import { useCallback, useState } from "react";
 import { AiOutlineMenu } from "react-icons/ai";
 
 export const UserMenu = () => {
   const registerModal = useRegisterModal();
+  const loginModal = useLoginModal();
   const [isOpen, setIsOpen] = useState(false);
 
   // 最初にレンダリングされた時に、useCallback内の関数が生成され、それ以降は第二引数の空配列によりその関数は再生成されることはない。
@@ -41,7 +43,7 @@ export const UserMenu = () => {
         <div className="absolute rounded-xl shadow-md w-[40vw] md:w-3/4 bg-white overflow-hidden right-0 top-12 text-sm">
           <div className="flext flex-col cursor-pointer">
             <>
-              <MenuItem onClick={() => {}} label="Login" />
+              <MenuItem onClick={loginModal.onOpen} label="Login" />
               <MenuItem onClick={registerModal.onOpen} label="Sing up" />
             </>
           </div>

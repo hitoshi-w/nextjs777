@@ -18,6 +18,7 @@ export const authOptions: AuthOptions = {
       clientSecret: process.env.GOOGLE_SECRET!,
     }),
     CredentialsProvider({
+      name: "credentails",
       credentials: {
         email: { label: "email", type: "text" },
         password: { label: "password", type: "password" },

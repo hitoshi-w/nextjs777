@@ -9,17 +9,14 @@ import { Modal } from "@/components/modals/Modal";
 import { Heading } from "@/components/Heading";
 import { Input } from "@/components/inputs/input";
 import { Button } from "@/components/modals/Button";
+import { useLoginModal } from "@/hooks/useLoginModal";
+import { signIn } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
-const postData = async (data: FieldValues) => {
-  const response = await fetch("/api/register", {
-    method: "POST",
-    body: JSON.stringify(data),
-  });
-  return response;
-};
-
-export const RegisterModal = () => {
+export const LoginModal = () => {
   const registerModal = useRegisterModal();
+  const loginModal = useLoginModal();
+  const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
 
   const {
@@ -36,17 +33,28 @@ export const RegisterModal = () => {
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
     setIsLoading(true);
 
-    postData(data)
-      .then(() => registerModal.onClose())
-      .catch((error) => console.log(error))
-      .finally(() => {
-        setIsLoading(false);
-      });
+    // 失敗時は、同じページへリダイレクトさせる
+    signIn("credentials", {
+      ...data,
+      redirect: false,
+    }).then((callback) => {
+      setIsLoading(false);
+
+      if (callback?.ok) {
+        // サーバーからデータをフェッチしなおす
+        router.refresh();
+        loginModal.onClose();
+      }
+
+      if (callback?.error) {
+        console.log(callback.error)
+      }
+    });
   };
 
   const bodyContent = (
     <div className="flex flex-col gap-4">
-      <Heading title="Welcome" subtitle="Create an account" />
+      <Heading title="Welcome" subtitle="Login to your account" />
       <Input
         id="email"
         label="Email"
@@ -101,10 +109,10 @@ export const RegisterModal = () => {
   return (
     <Modal
       disabled={isLoading}
-      isOpen={registerModal.isOpen}
-      title="Register"
+      isOpen={loginModal.isOpen}
+      title="Login"
       actionLabel="Continue"
-      onClose={registerModal.onClose}
+      onClose={loginModal.onClose}
       onSubmit={handleSubmit(onSubmit)}
       body={bodyContent}
       footer={footerContent}
