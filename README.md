@@ -6,6 +6,7 @@
 - [Prisma](https://prisma.io/)
 - [Supabase](https://supabase.com/)
 - [Vercel](http://vercel.com/)
+- [Tailwind](https://tailwindcss.com/)
 
 ## 開発環境構築
 1. リポジトリを持ってくる
